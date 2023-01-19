@@ -1,5 +1,6 @@
 package com.cml.FirstProject.services.interf;
 
+import com.cml.FirstProject.errors.DepartmentNotFoundException;
 import com.cml.FirstProject.models.Department;
 
 import java.util.List;
@@ -10,9 +11,9 @@ public interface IDepartmentService {
 
     public List<Department> getDepartments();
 
-    public Department getDepartmentById(UUID id);
+    public Department getDepartmentById(UUID id) throws DepartmentNotFoundException;
 
-    public boolean deleteDepartmentById(UUID id);
+    public Department deleteDepartmentById(UUID id) throws DepartmentNotFoundException;
 
     public Department updatedDepartment(UUID id, Department department);
 

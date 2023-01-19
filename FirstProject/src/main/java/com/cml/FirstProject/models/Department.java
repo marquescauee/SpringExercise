@@ -4,15 +4,22 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Builder;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.UUID;
 
 @Entity
+@Builder
 public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
+    @NotBlank(message = "Please insert name")
     private String name;
     private String address;
     private String code;

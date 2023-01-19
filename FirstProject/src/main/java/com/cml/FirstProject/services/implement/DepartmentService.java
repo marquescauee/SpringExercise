@@ -1,14 +1,12 @@
 package com.cml.FirstProject.services.implement;
 
+import com.cml.FirstProject.errors.DepartmentNotFoundException;
 import com.cml.FirstProject.models.Department;
 import com.cml.FirstProject.repositories.interf.IDepartmentRepository;
 import com.cml.FirstProject.services.interf.IDepartmentService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class DepartmentService implements IDepartmentService {
@@ -30,8 +28,14 @@ public class DepartmentService implements IDepartmentService {
     }
 
     @Override
-    public Department getDepartmentById(UUID id) {
-        return departmentRepository.findById(id).get();
+    public Department getDepartmentById(UUID id) throws DepartmentNotFoundException {
+        Optional<Department> department = departmentRepository.findById(id);
+
+        if(!department.isPresent()) {
+            throw new DepartmentNotFoundException("Department not Available");
+        }
+
+        return department.get();
     }
 
     @Override
@@ -40,18 +44,15 @@ public class DepartmentService implements IDepartmentService {
     }
 
     @Override
-    public boolean deleteDepartmentById(UUID id) {
+    public Department deleteDepartmentById(UUID id) throws DepartmentNotFoundException {
 
-        try {
-            Department departmentDB = departmentRepository.findById(id).get();
+        Optional<Department> department = departmentRepository.findById(id);
 
-            departmentRepository.deleteById(id);
-
-            return true;
-
-        } catch(NoSuchElementException e) {
-            return false;
+        if(!department.isPresent()) {
+            throw new DepartmentNotFoundException("Department not Found");
         }
+
+        return department.get();
     }
 
     @Override
